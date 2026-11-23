@@ -1,0 +1,17 @@
+[project]
+name = "bible-study-ai"
+version = "0.1.0"
+description = "An offline-first AI-powered Bible study companion"
+readme = "README.md"
+authors = [
+    { name = "Lynda Chiwetelu", email = "lchiwetelu@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+bible-study-ai = "bible_study_ai:main"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14.0"]
+build-backend = "uv_build"
