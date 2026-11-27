@@ -176,3 +176,43 @@ def test_preserves_footnote_structure_without_including_it_in_reading_text():
         node.get("type") == "span" and node.get("name") == "+wh"
         for node in footnote["children"]
     )
+
+
+def test_preserves_section_headings_in_chapter_order():
+    source = r"""
+\id EPH World English Bible
+\c 4
+\s Unity in the Body of Christ
+\p
+\v 1 I therefore...
+\v 2 with all lowliness...
+\s Spiritual Gifts
+\p
+\v 7 But to each one...
+"""
+
+    book = parse_usfm(source)
+    elements = book["chapters"][0]["elements"]
+
+    from pprint import pprint
+    pprint(elements)
+
+    assert [element["type"] for element in elements] == [
+        "marker",
+        "marker",
+        "verse",
+        "verse",
+        "marker",
+        "marker",
+        "verse",
+    ]
+
+    headings = [
+        element for element in elements
+        if element["type"] == "marker"
+        and element["name"] == "s"
+    ]
+
+    assert len(headings) == 2
+    assert headings[0]["text"] == "Unity in the Body of Christ"
+    assert headings[1]["text"] == "Spiritual Gifts"
