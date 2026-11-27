@@ -25,20 +25,29 @@ class PassageReranking(BaseModel):
 
 class ScriptureCitation(BaseModel):
     reference: str = Field(
-        description="The Bible reference supporting the answer."
+        description="A Bible reference that directly supports the answer."
     )
-    explanation: str = Field(
-        description="Briefly explain how this passage supports the answer."
+
+
+class SupportingPoint(BaseModel):
+    claim: str = Field(
+        description="A specific biblical teaching or practical application."
+    )
+    reference: str = Field(
+        description="The exact Bible reference supporting this point."
     )
 
 
 class GeneratedAnswer(BaseModel):
     answer: str = Field(
-        description="A clear, coherent answer to the user's question."
+        description="A coherent, natural-language answer to the user's question."
+    )
+    points: list[SupportingPoint] = Field(
+        description="Key claims in the answer, each linked to its supporting scripture."
     )
     citations: list[ScriptureCitation] = Field(
-        description="Scripture references supporting the answer."
+        description="All Bible passages used as evidence in the answer."
     )
     sufficient_evidence: bool = Field(
-        description="Whether the retrieved passages provide sufficient evidence to answer the question."
+        description="Whether the supplied passages adequately answer the question."
     )

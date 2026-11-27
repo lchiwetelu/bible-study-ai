@@ -7,3 +7,4 @@ class AgentState(TypedDict):
     search_queries: list[str]
     retrieved_passages: list[dict]
     expanded_passages: list[dict]
+    answer: dict
