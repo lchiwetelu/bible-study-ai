@@ -146,14 +146,19 @@ def rerank_passages(state: AgentState) -> dict:
     return {"retrieved_passages": reranked}
 
 
-def expand_context(state: AgentState) -> dict:
-    """Expand the top five reranked passages with surrounding verses."""
 
-    top_passages = state["retrieved_passages"][:5]
+def expand_context(state: AgentState) -> dict:
+    """Expand relevant passages with surrounding verses."""
+
+    relevant_passages = [
+        passage
+        for passage in state["retrieved_passages"]
+        if passage["relevance_score"] >= 3
+    ]
 
     expanded_passages = [
         expand_passage_context(passage, window=2)
-        for passage in top_passages
+        for passage in relevant_passages
     ]
 
     return {"expanded_passages": expanded_passages}
