@@ -11,6 +11,7 @@ dependencies = [
     "alembic>=1.20.1",
     "chromadb>=1.5.9",
     "fastapi[standard]>=0.165.0",
+    "langgraph>=1.2.24",
     "ollama>=0.6.3",
     "psycopg[binary]>=3.3.9",
     "pydantic-settings>=2.16.3",
