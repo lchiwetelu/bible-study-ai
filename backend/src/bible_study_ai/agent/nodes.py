@@ -10,6 +10,7 @@ from bible_study_ai.agent.schemas import (
     QueryTransformation,
 )
 from bible_study_ai.agent.state import AgentState
+from bible_study_ai.rag.context_expansion import expand_passage_context
 from bible_study_ai.rag.vector_store import VectorStore
 
 
@@ -30,7 +31,6 @@ def transform_query(state: AgentState) -> dict:
     result = QueryTransformation.model_validate_json(response.message.content)
 
     return {"search_queries": result.search_queries}
-
 
 
 def retrieve_passages(state: AgentState) -> dict:
@@ -137,3 +137,16 @@ def rerank_passages(state: AgentState) -> dict:
     )
 
     return {"retrieved_passages": reranked}
+
+
+def expand_context(state: AgentState) -> dict:
+    """Expand the top five reranked passages with surrounding verses."""
+
+    top_passages = state["retrieved_passages"][:5]
+
+    expanded_passages = [
+        expand_passage_context(passage, window=2)
+        for passage in top_passages
+    ]
+
+    return {"expanded_passages": expanded_passages}
